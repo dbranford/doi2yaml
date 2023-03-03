@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "doi2yaml"
+version = "0.0.1"
+description = ""
+authors = ["Dominic Branford"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+crossref-commons = "^0.0.7"
+argparse = "^1.4.0"
+regex = "^2022.10.31"
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.2.1"
+pathlib = "^1.0.1"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
