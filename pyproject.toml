@@ -23,6 +23,7 @@ pathlib = "^1.0.1"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
+markers = ["crossref_api: tests which call the Crossref API"]
 
 [build-system]
 requires = ["poetry-core"]

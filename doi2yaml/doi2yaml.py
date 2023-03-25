@@ -62,9 +62,24 @@ class Result:
             result = json.load(f)
         return cls(result)
 
+    @classmethod
+    def all_from_file(cls, file: str) -> list[Self]:
+        with open(file) as f:
+            results = json.load(f)
+        return [cls(r) for r in results]
+
     def to_file(self, file: str):
         with open(file, "w") as f:
             json.dump(self.result, f)
+
+    @staticmethod
+    def all_to_file(file: str, results: list[Self]):
+        with open(file, "w") as f:
+            json.dump(results, f)
+
+    @classmethod
+    def from_dict(cls, d: dict) -> list[Self]:
+        return [cls(r) for r in d]
 
 
 class ResultParser:
