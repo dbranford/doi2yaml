@@ -1,50 +1,37 @@
 from doi2yaml import ResultParser, Result
 from pathlib import Path
-
-p = ResultParser()
+import pytest
 
 path = Path("tests/files")
 
 
-def test_parse0():
+@pytest.fixture
+def res_yaml_from_index(request):
+    index = request.param
+    r = Result.from_file(path / f"test_{index}.json")
+    with open(path / f"test_answer_{index}.yaml") as f:
+        y = f.read()
+    return r, y
+
+
+@pytest.mark.parametrize("res_yaml_from_index", [0, 1, 2, 3], indirect=True)
+def test_parse(res_yaml_from_index):
+    r, a = res_yaml_from_index
+
+    p = ResultParser()
+
+    s = p.parse_to_yaml(r)
+
+    assert a == s
+
+
+def test_parse_change_keys():
     r = Result.from_file(path / "test_0.json")
 
-    s = p.parse_to_yaml(r)
+    p = ResultParser()
+    p.yaml_keys = {
+        "volume": {},
+    }
+    y = p.parse_to_yaml(r)
 
-    with open(path / "test_answer_0.yaml") as f:
-        a = f.read()
-
-    assert a == s
-
-
-def test_parse1():
-    r = Result.from_file(path / "test_1.json")
-
-    s = p.parse_to_yaml(r)
-
-    with open(path / "test_answer_1.yaml") as f:
-        a = f.read()
-
-    assert a == s
-
-
-def test_parse2():
-    r = Result.from_file(path / "test_2.json")
-
-    s = p.parse_to_yaml(r)
-
-    with open(path / "test_answer_2.yaml") as f:
-        a = f.read()
-
-    assert a == s
-
-
-def test_parse3():
-    r = Result.from_file(path / "test_3.json")
-
-    s = p.parse_to_yaml(r)
-
-    with open(path / "test_answer_3.yaml") as f:
-        a = f.read()
-
-    assert a == s
+    assert y == "- volume: 65\n  doi: 10.1103/physrevd.65.022002"

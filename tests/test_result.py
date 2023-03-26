@@ -1,12 +1,18 @@
 from doi2yaml import Result
 from doi2yaml.doi2yaml import format_date, parse_authors
 from pathlib import Path
+import pytest
 
 p = Path("tests/files")
 
 
-def test_result_to_yaml_key():
-    r = Result.from_file(p / "test_0.json")
+@pytest.fixture
+def test0():
+    return Result.from_file(p / "test_0.json")
+
+
+def test_result_to_yaml_key(test0):
+    r = test0
 
     y = r.to_yaml_key("publisher")
     assert y == "  publisher: American Physical Society (APS)"
@@ -21,8 +27,8 @@ def test_result_to_yaml_key():
     assert y == "  date: [[2002, 7, 27]]"
 
 
-def test_result_to_yaml_key_missing():
-    r = Result.from_file(p / "test_0.json")
+def test_result_to_yaml_key_missing(test0):
+    r = test0
 
     y = r.to_yaml_key("publisher", "not-publisher")
     assert y == ""
@@ -31,8 +37,8 @@ def test_result_to_yaml_key_missing():
     assert y == "  publisher: foo"
 
 
-def test_result_to_yaml_key_processor():
-    r = Result.from_file(p / "test_0.json")
+def test_result_to_yaml_key_processor(test0):
+    r = test0
 
     y = r.to_yaml_key("date", ["published", "date-parts", 0], processor=format_date)
     assert y == "  date: 2001-12-26"
@@ -54,8 +60,8 @@ def test_result_to_yaml_key_processor():
     )
 
 
-def test_result_to_yaml_key_fallback():
-    r = Result.from_file(p / "test_0.json")
+def test_result_to_yaml_key_fallback(test0):
+    r = test0
 
     y = r.to_yaml_key("not-publisher", fallback={"key_yaml": "publisher"})
     assert y == "  publisher: American Physical Society (APS)"
