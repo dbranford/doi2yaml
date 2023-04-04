@@ -22,9 +22,11 @@ def test_lookup_doi():
 
     for r in results:
         del r["indexed"]
+        del r["is-referenced-by-count"]
 
     for r in results_stored:
         del r["indexed"]
+        del r["is-referenced-by-count"]
 
     assert results == results_stored
 
