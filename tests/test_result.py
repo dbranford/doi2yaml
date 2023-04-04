@@ -1,5 +1,5 @@
 from doi2yaml import Result
-from doi2yaml.doi2yaml import format_date, parse_authors
+from doi2yaml.processors import format_date, parse_authors
 from pathlib import Path
 import pytest
 

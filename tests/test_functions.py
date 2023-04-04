@@ -1,5 +1,5 @@
 from doi2yaml import lookup_dois, Result
-from doi2yaml.doi2yaml import format_date, parse_orcid
+from doi2yaml.processors import format_date, parse_orcid
 from pathlib import Path
 import pytest
 

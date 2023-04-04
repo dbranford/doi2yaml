@@ -1,1 +1,3 @@
-from .doi2yaml import lookup_dois, Result, ResultParser
+from .result import Result
+from .parser import ResultParser
+from .functions import lookup_dois
