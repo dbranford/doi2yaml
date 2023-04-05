@@ -28,10 +28,11 @@ def test_parse(res_yaml_from_index):
 def test_parse_change_keys():
     r = Result.from_file(path / "test_0.json")
 
-    p = ResultParser()
-    p.yaml_keys = {
-        "volume": {},
-    }
+    p = ResultParser(
+        yaml_keys={
+            "volume": {},
+        }
+    )
     y = p.parse_to_yaml(r)
 
     assert y == "- volume: 65\n  doi: 10.1103/physrevd.65.022002"
